@@ -61,6 +61,8 @@ HtmlGenerator.prototype = {
 	MONTH_ITEM:	'month item', // Month on the calendar
 	YEAR_ITEM:	'year item', // Year on the calendar
 	DECS_ITEM:	'decs item', // Decs on the calendar
+	WARNING_CLASS: 'warning', // Class using for highlight invalide date or something error
+	SELECTION_CLASS: 'selected', // Class using for highlight selected date
 
 	getHead: function (params) {
 		var selectedDate = $('<div />', {
@@ -93,7 +95,7 @@ HtmlGenerator.prototype = {
 
 			case 'decs': selectedDate.append($('<div />', {
 				class: this.SELECTED_DATE_CLASS_DECS,
-				text: parseInt(params.date.getFullYear() / 100) * 100 + '-' + (parseInt(params.date.getFullYear() / 100) * 100 + 99)
+				text: parseInt(params.date.getFullYear() / 100, 10) * 100 + '-' + (parseInt(params.date.getFullYear() / 100, 10) * 100 + 99)
 			})); break;
 		}
 
@@ -103,44 +105,6 @@ HtmlGenerator.prototype = {
 		}));
 
 		return selectedDate;
-	},
-
-	isCorrect: function (param) {
-		if (param.day !== undefined) {
-			var d = new Date(this.calendar.dateCurrent.getFullYear(),
-				this.calendar.dateCurrent.getMonth(), param.day);
-			if (d < this.calendar.dateFrom || d > this.calendar.dateTo)
-				return false;
-			else
-				return true;
-		}
-
-		if (param.month !== undefined) {
-			var dF = new Date(this.calendar.dateCurrent.getFullYear(),
-				param.month, daysInMonth[param.month]);
-			var dT = new Date(this.calendar.dateCurrent.getFullYear(),
-				param.month, 1);
-			if (dF < this.calendar.dateFrom || dT > this.calendar.dateTo)
-				return false;
-			else
-				return true;
-		}
-
-		if (param.year !== undefined) {
-			if (param.year < this.calendar.dateFrom.getFullYear() ||
-				param.year > this.calendar.dateTo.getFullYear())
-				return false;
-			else
-				return true;
-		}
-
-		if (param.decs !== undefined) {
-			if ((param.decs + 9) < this.calendar.dateFrom.getFullYear() ||
-				param.decs > this.calendar.dateTo.getFullYear())
-				return false;
-			else
-				return true;
-		}
 	},
 
 	getDays: function () {
@@ -207,12 +171,12 @@ HtmlGenerator.prototype = {
 				text: i
 			});
 
-			if (!this.isCorrect({ day: i }))
-				temp.addClass('warning');
+			if (!this.calendar.isCorrect({ day: i }))
+				temp.addClass(this.WARNING_CLASS);
 
-			if ((i == this.calendar.getDate().getDate()) && 
+			if ((i == this.calendar.getDate().getDate()) &&
 				this.calendar.selectedMonth == date.getMonth())
-				temp.addClass('selected');
+				temp.addClass(this.SELECTION_CLASS);
 
 			wrap.append(temp);
 
@@ -258,11 +222,11 @@ HtmlGenerator.prototype = {
 				text: months[i][1]
 			});
 
-			if (!this.isCorrect({ month: i }))
-				temp.addClass('warning');
+			if (!this.calendar.isCorrect({ month: i }))
+				temp.addClass(this.WARNING_CLASS);
 
 			if ((i == date.getMonth()) && date.getMonth() == this.calendar.selectedMonth)
-				temp.addClass('selected');
+				temp.addClass(this.SELECTION_CLASS);
 
 			wrap.append(temp);
 
@@ -305,11 +269,11 @@ HtmlGenerator.prototype = {
 				text: i
 			});
 
-			if (!this.isCorrect({ year: i }))
-				temp.addClass('warning');
+			if (!this.calendar.isCorrect({ year: i }))
+				temp.addClass(this.WARNING_CLASS);
 
 			if ((i == date.getFullYear()) && date.getFullYear() == this.calendar.selectedYear)
-				temp.addClass('selected');
+				temp.addClass(this.SELECTION_CLASS);
 
 			wrap.append(temp);
 
@@ -356,11 +320,11 @@ HtmlGenerator.prototype = {
 				text: i + '-' + (i+9)
 			});
 
-			if (!this.isCorrect({ decs: i }))
-				temp.addClass('warning');
+			if (!this.calendar.isCorrect({ decs: i }))
+				temp.addClass(this.WARNING_CLASS);
 
 			if ((i == date.getFullYear()) && date.getFullYear() == this.calendar.selectedYear)
-				temp.addClass('selected');
+				temp.addClass(this.SELECTION_CLASS);
 
 			wrap.append(temp);
 
@@ -391,12 +355,17 @@ Calendar = function (object) {
 	this.selectedDay = this.dateCurrent.getDate();
 	this.selectedMonth = this.dateCurrent.getMonth();
 	this.selectedYear = this.dateCurrent.getFullYear();
-	this.previousSelected = undefined;
+	this.previousSelected = undefined; 
 
 	this.initBinds();
 };
 
 Calendar.prototype = {
+
+	LEVEL_DAYS: 0, // Days visible
+	LEVEL_MONTHS: 1, // Month visible
+	LEVEL_YEARS: 2, // Years visible
+	LEVEL_DECS: 3, // Decs visible
 
 	init: function (params) {
 		if (typeof params == 'object') {
@@ -461,12 +430,50 @@ Calendar.prototype = {
 			this.selectedMonth = date.getMonth();
 			this.selectedYear = date.getFullYear();
 		} else if (typeof date == 'string') {
-			var date = date.split('.');
-			this.selectedDay = parseInt(date[0], 10);
-			this.selectedMonth = parseInt(date[1], 10) - 1;
-			this.selectedYear = parseInt(date[2], 10);
+			var dateSplit = date.split('.');
+			this.selectedDay = parseInt(dateSplit[0], 10);
+			this.selectedMonth = parseInt(dateSplit[1], 10) - 1;
+			this.selectedYear = parseInt(dateSplit[2], 10);
 		}
 		$(this.input).html(this.getHtml());
+	},
+
+	isCorrect: function (param) {
+		if (param.day !== undefined) {
+			var d = new Date(this.dateCurrent.getFullYear(),
+				this.dateCurrent.getMonth(), param.day);
+			if (d < this.dateFrom || d > this.dateTo)
+				return false;
+			else
+				return true;
+		}
+
+		if (param.month !== undefined) {
+			var dF = new Date(this.dateCurrent.getFullYear(),
+				param.month, daysInMonth[param.month]);
+			var dT = new Date(this.dateCurrent.getFullYear(),
+				param.month, 1);
+			if (dF < this.dateFrom || dT > this.dateTo)
+				return false;
+			else
+				return true;
+		}
+
+		if (param.year !== undefined) {
+			if (param.year < this.dateFrom.getFullYear() ||
+				param.year > this.dateTo.getFullYear())
+				return false;
+			else
+				return true;
+		}
+
+		if (param.decs !== undefined) {
+			if ((param.decs + 9) < this.dateFrom.getFullYear() ||
+				param.decs > this.dateTo.getFullYear())
+				return false;
+			else
+				return true;
+		}
 	},
 
 	getHtml: function () {
@@ -475,14 +482,14 @@ Calendar.prototype = {
 		if (arguments.length != 0)
 		{
 			switch (arguments[0]) {
-				case 'days': 
+				case 'days':
 					html = this.htmlGenerator.getDays();
 					if (arguments[1] == 'down')
 						$('.calendar').animate({
 							height: '+=40px'
 						}, 100);
 					break;
-				case 'months': 
+				case 'months':
 					html = this.htmlGenerator.getMonths();
 					if (arguments[1] == 'up')
 						$('.calendar').animate({
@@ -500,14 +507,14 @@ Calendar.prototype = {
 	},
 
 	moveUp: function () {
-		if (this.levelCode < 3) // если decs, то 3
+		if (this.levelCode <= this.LEVEL_DECS)
 			this.levelCode++;
 		this.previousSelected = undefined;
 		$(this.input).html(this.getHtml(this.levels[this.levelCode], 'up').html());
 	},
 
 	moveDown: function () {
-		if (this.levelCode > 0)
+		if (this.levelCode > this.LEVEL_DAYS)
 			this.levelCode--;
 		this.previousSelected = undefined;
 		$(this.input).html(this.getHtml(this.levels[this.levelCode], 'down').html());
@@ -515,28 +522,28 @@ Calendar.prototype = {
 
 	moveLeft: function () {
 		switch (this.levelCode) {
-			case 0: 
+			case this.LEVEL_DAYS:
 				if ((this.dateCurrent.getMonth() - 1) != -1) {
-					this.dateCurrent.setMonth(this.dateCurrent.getMonth() - 1)
+					this.dateCurrent.setMonth(this.dateCurrent.getMonth() - 1);
 				} else {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() - 1);
 					this.dateCurrent.setMonth(11);
 				}
 				break;
 
-			case 1: 
+			case this.LEVEL_MONTHS:
 				if ((this.dateCurrent.getFullYear() - 1) > this.dateFrom.getFullYear()) {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() - 1);
 				}
 				break;
 
-			case 2:
+			case this.LEVEL_YEARS:
 				if ((parseInt((this.dateCurrent.getFullYear() - 10) / 10, 10)) >= parseInt(this.dateFrom.getFullYear() / 10, 10)) {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() - 10);
 				}
 				break;
 
-			case 3:
+			case this.LEVEL_DECS:
 				if ((parseInt((this.dateCurrent.getFullYear() - 100) / 100, 10)) >= 19) {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() - 100);
 				}
@@ -547,7 +554,7 @@ Calendar.prototype = {
 
 	moveRight: function () {
 		switch (this.levelCode) {
-			case 0: 
+			case this.LEVEL_DAYS:
 				if ((this.dateCurrent.getMonth() + 1) != 12) {
 					this.dateCurrent.setMonth(this.dateCurrent.getMonth() + 1);
 				} else {
@@ -556,19 +563,19 @@ Calendar.prototype = {
 				}
 				break;
 
-			case 1: 
+			case this.LEVEL_MONTHS:
 				if ((this.dateCurrent.getFullYear() + 1) < this.dateTo.getFullYear()) {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() + 1);
 				}
 				break;
 
-			case 2:
+			case this.LEVEL_YEARS:
 				if ((parseInt((this.dateCurrent.getFullYear() + 10) / 10, 10)) <= parseInt(this.dateTo.getFullYear() / 10, 10)) {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() + 10);
 				}
 				break;
 
-			case 3:
+			case this.LEVEL_DECS:
 				if (parseInt((this.dateCurrent.getFullYear() + 100) / 100, 10) <= 20) {
 					this.dateCurrent.setYear(this.dateCurrent.getFullYear() + 100);
 				}
@@ -612,18 +619,30 @@ Calendar.prototype = {
 			} else {
 				self.moveDown();
 			}
-			event.stopPropagation();
+			if (event.stopPropagation)
+				event.stopPropagation();
+			else
+				e.cancelBubble = true;
 		}).on('click', '.move-left', function () {
 			self.moveLeft();
-			event.stopPropagation();
+			if (event.stopPropagation)
+				event.stopPropagation();
+			else
+				e.cancelBubble = true;
 		}).on('click', '.move-right', function () {
 			self.moveRight();
-			event.stopPropagation();
+			if (event.stopPropagation)
+				event.stopPropagation();
+			else
+				e.cancelBubble = true;
 		});
 
 		$(this.input).on('click', '.selected-date', function () {
 			self.moveUp();
-			event.stopPropagation();
+			if (event.stopPropagation)
+				event.stopPropagation();
+			else
+				e.cancelBubble = true;
 		});
 	},
 
@@ -648,7 +667,10 @@ $(document).ready(function () {
 		} else {
 			$('.calendar').hide();
 		}
-		event.stopPropagation();
+		if (event.stopPropagation)
+			event.stopPropagation();
+		else
+			e.cancelBubble = true;
 	});
 
 	$('body').click(function () {
