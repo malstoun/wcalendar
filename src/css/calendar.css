@@ -1,7 +1,6 @@
 .calendar {
 	position: absolute;
-	left: 50px;
-	top: 10px;
+	margin-left: 10px;
 	padding-left: 6px;
 	padding-right: 6px;
 	display: none;
@@ -174,7 +173,7 @@
 	vertical-align: middle;
 }
 
-/*.decs*/.hover {
+.hover {
 	border: 1px solid #b9d7fc;
 	border-radius: 5px;
 	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
@@ -184,7 +183,7 @@
     background: linear-gradient(top, #fdfeff, #edf5ff);
 }
 
-/*.decs*/.selected {
+.selected {
 	border: 1px dotted #84acdd;
 	border-radius: 5px;
 	background: -moz-linear-gradient(top, #ebf4ff, #d1e6ff);
@@ -193,66 +192,6 @@
     background: -ms-linear-gradient(top, #ebf4ff, #d1e6ff);
     background: linear-gradient(top, #ebf4ff, #d1e6ff);
 }
-
-/*.year.hover {
-	border: 1px solid #b9d7fc;
-	border-radius: 5px;
-	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -webkit-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -o-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -ms-linear-gradient(top, #fdfeff, #edf5ff);
-    background: linear-gradient(top, #fdfeff, #edf5ff);
-}
-
-.year.selected {
-	border: 1px dotted #84acdd;
-	border-radius: 5px;
-	background: -moz-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -webkit-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -o-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -ms-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: linear-gradient(top, #ebf4ff, #d1e6ff);
-}
-
-.month.hover {
-	border: 1px solid #b9d7fc;
-	border-radius: 5px;
-	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -webkit-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -o-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -ms-linear-gradient(top, #fdfeff, #edf5ff);
-    background: linear-gradient(top, #fdfeff, #edf5ff);
-}
-
-.month.selected {
-	border: 1px dotted #84acdd;
-	border-radius: 5px;
-	background: -moz-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -webkit-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -o-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -ms-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: linear-gradient(top, #ebf4ff, #d1e6ff);
-}
-
-.day.hover {
-	border: 1px solid #b9d7fc;
-	border-radius: 5px;
-	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -webkit-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -o-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -ms-linear-gradient(top, #fdfeff, #edf5ff);
-    background: linear-gradient(top, #fdfeff, #edf5ff);
-}
-
-.day.selected {
-	border: 1px dotted #84acdd;
-	border-radius: 5px;
-	background: -moz-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -webkit-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -o-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -ms-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: linear-gradient(top, #ebf4ff, #d1e6ff);
-}*/
 
 .warning {
 	color: #ef3124;
