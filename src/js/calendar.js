@@ -50,7 +50,7 @@
 	HtmlGenerator.prototype = {
 
 		// Section with classes
-		// If you want use your own classes for elements just replace class here
+		// If you want to use your own classes for elements just add your classes before standard class
 
 		DAYS_OF_WEEK:	'weekday', // Day of the week
 		ARROW_LEFT_CLASS:	'move-left', // Arrow to change the date (left)
@@ -62,10 +62,10 @@
 		ANOTHER_DAY:	'day-another', // Day of another month
 		ANOTHER_YEAR:	'year-another', // Year of another decs
 		ANOTHER_DECS:	'decs-another', // Decs of another cent
-		DAY_ITEM:	'day item', // Day on the calendar
-		MONTH_ITEM:	'month item', // Month on the calendar
-		YEAR_ITEM:	'year item', // Year on the calendar
-		DECS_ITEM:	'decs item', // Decs on the calendar
+		DAY_ITEM:	'day item', // Day on the calendar. item is REQUIRED
+		MONTH_ITEM:	'month item', // Month on the calendar. item is REQUIRED
+		YEAR_ITEM:	'year item', // Year on the calendar. item is REQUIRED
+		DECS_ITEM:	'decs item', // Decs on the calendar. item is REQUIRED
 		WARNING_CLASS: 'warning', // Class using for highlight invalide date or something error
 		SELECTION_CLASS: 'selected', // Class using for highlight selected date
 
@@ -628,7 +628,7 @@
 			$(this).addClass('hover');
 		}).on('mouseleave', '.item', function (event) {
 			$(this).removeClass('hover');
-		}).on('click', '.item', function () {
+		}).on('click', '.item', function (event) {
 			if (self.previousSelected)
 				self.previousSelected.removeClass('selected');
 			else
@@ -657,31 +657,26 @@
 			} else {
 				self.moveDown();
 			}
-			if (event.stopPropagation)
-				event.stopPropagation();
-			else
-				e.cancelBubble = true;
-		}).on('click', '.move-left', function () {
+			cancelBubbling(event);
+		}).on('click', '.move-left', function (event) {
 			self.moveLeft();
-			if (event.stopPropagation)
-				event.stopPropagation();
-			else
-				e.cancelBubble = true;
-		}).on('click', '.move-right', function () {
+			cancelBubbling(event);
+		}).on('click', '.move-right', function (event) {
 			self.moveRight();
-			if (event.stopPropagation)
-				event.stopPropagation();
-			else
-				e.cancelBubble = true;
+			cancelBubbling(event);
 		});
 
-		$(calendar).on('click', '.selected-date', function () {
+		$(calendar).on('click', '.selected-date', function (event) {
 			self.moveUp();
-			if (event.stopPropagation)
-				event.stopPropagation();
-			else
-				e.cancelBubble = true;
+			cancelBubbling(event);
 		});
+	}
+
+	function cancelBubbling(event) {
+		if (event.stopPropagation)
+			event.stopPropagation();
+		else
+			event.cancelBubble = true;
 	}
 
 })(jQuery);
