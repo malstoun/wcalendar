@@ -71,42 +71,42 @@
 
 		getHead: function (params) {
 			var selectedDate = $('<div />', {
-				class: 'wrap-selected-date'
+				'class': 'wrap-selected-date'
 			});
 
 			selectedDate.append($('<div />', {
 				text: '<',
-				class: this.ARROW_LEFT_CLASS
+				'class': this.ARROW_LEFT_CLASS
 			}));
 
 			switch (params.type) {
 				case 'day': selectedDate.append($('<div />', {
-					class: this.SELECTED_DATE_CLASS_DAY,
+					'class': this.SELECTED_DATE_CLASS_DAY,
 					text: params.date.getDate() + ' ' +
 					months[params.date.getMonth()][2] + ' ' +
 					params.date.getFullYear()
 				})); break;
 
 				case 'month': selectedDate.append($('<div />', {
-					class: this.SELECTED_DATE_CLASS_MONTH,
+					'class': this.SELECTED_DATE_CLASS_MONTH,
 					text: (months[params.date.getMonth()][0]) + ' ' +
 					params.date.getFullYear()
 				})); break;
 
 				case 'year': selectedDate.append($('<div />', {
-					class: this.SELECTED_DATE_CLASS_YEAR,
+					'class': this.SELECTED_DATE_CLASS_YEAR,
 					text: params.date.getFullYear()
 				})); break;
 
 				case 'decs': selectedDate.append($('<div />', {
-					class: this.SELECTED_DATE_CLASS_DECS,
+					'class': this.SELECTED_DATE_CLASS_DECS,
 					text: parseInt(params.date.getFullYear() / 100, 10) * 100 + '-' + (parseInt(params.date.getFullYear() / 100, 10) * 100 + 99)
 				})); break;
 			}
 
 			selectedDate.append($('<div />', {
 				text: '>',
-				class: this.ARROW_RIGHT_CLASS
+				'class': this.ARROW_RIGHT_CLASS
 			}));
 
 			return selectedDate;
@@ -121,12 +121,12 @@
 			html.append(selectedDate);
 
 			var dayName = $('<div />', {
-				class: 'wrap-weekdays'
+				'class': 'wrap-weekdays'
 			});
 
 			for (var i = 0; i < 7; i++) {
 				dayName.append($('<div />', {
-					class: this.DAYS_OF_WEEK,
+					'class': this.DAYS_OF_WEEK,
 					text: daysName[i][1]
 				}));
 			}
@@ -134,7 +134,7 @@
 			html.append(dayName);
 
 			html.append($('<hr />', {
-				class: 'line'
+				'class': 'line'
 			}));
 
 			// Выбираем текущий месяц, берём первое число и узнаём день недели
@@ -148,7 +148,7 @@
 				dayCode = 7;
 
 			var wrap = $('<div />', {
-				class: 'day-wrap'
+				'class': 'day-wrap'
 			});
 
 			if (dayCode == 1)
@@ -156,7 +156,7 @@
 
 			for (var ii = 1; ii < dayCode; ii++)
 				wrap.append($('<div />', {
-					class: this.ANOTHER_DAY,
+					'class': this.ANOTHER_DAY,
 					text: (new Date(firstDay.getMilliseconds() - 86000000 * dayCode + (ii * 86000000))).getDate()
 				}));
 
@@ -171,7 +171,7 @@
 
 			for (i = 1; i <= numberDays; i++) {
 				temp = $('<div/>', {
-					class: this.DAY_ITEM,
+					'class': this.DAY_ITEM,
 					'data-code': i,
 					text: i
 				});
@@ -196,7 +196,7 @@
 			// Добиваем до 42 дней, 6 строк
 			while (i + ii != 42) {
 				wrap.append($('<div />', {
-					class: this.ANOTHER_DAY,
+					'class': this.ANOTHER_DAY,
 					text: anotherMonth++
 				}));
 				i++;
@@ -217,12 +217,12 @@
 			html.append(selectedDate);
 
 			var wrap = $('<div />', {
-				class: 'month-wrap'
+				'class': 'month-wrap'
 			});
 
 			for (var i = 0; i < 12; i++) {
 				temp = $('<div />', {
-					class: this.MONTH_ITEM,
+					'class': this.MONTH_ITEM,
 					'data-code': i,
 					text: months[i][1]
 				});
@@ -256,11 +256,11 @@
 			html.append(selectedDate);
 
 			var wrap = $('<div />', {
-				class: 'year-wrap'
+				'class': 'year-wrap'
 			});
 
 			wrap.append($('<div />', {
-				class: this.ANOTHER_YEAR,
+				'class': this.ANOTHER_YEAR,
 				text: parseInt(date.getFullYear() / 10, 10) * 10 - 1
 			}));
 
@@ -269,7 +269,7 @@
 			for (var i = parseInt(date.getFullYear() / 10, 10) * 10; i < parseInt(date.getFullYear() / 10, 10) * 10 + 10; i++) {
 				count++;
 				temp = $('<div />', {
-					class: this.YEAR_ITEM,
+					'class': this.YEAR_ITEM,
 					'data-code': i,
 					text: i
 				});
@@ -287,7 +287,7 @@
 			}
 
 			wrap.append($('<div />', {
-				class: this.ANOTHER_YEAR,
+				'class': this.ANOTHER_YEAR,
 				text: parseInt(date.getFullYear() / 10, 10) * 10 + 10
 			}));
 
@@ -307,11 +307,11 @@
 			html.append(selectedDate);
 
 			var wrap = $('<div />', {
-				class: 'decs-wrap'
+				'class': 'decs-wrap'
 			});
 
 			wrap.append($('<div />', {
-				class: this.ANOTHER_DECS,
+				'class': this.ANOTHER_DECS,
 				text: parseInt(date.getFullYear() / 100, 10) * 100 - 10 + '-' + (parseInt(date.getFullYear() / 100, 10) * 100 - 1)
 			}));
 
@@ -320,7 +320,7 @@
 			for (var i = parseInt(date.getFullYear() / 100, 10) * 100; i < parseInt(date.getFullYear() / 100, 10) * 100 + 100; i += 10) {
 				count++;
 				temp = $('<div />', {
-					class: this.DECS_ITEM,
+					'class': this.DECS_ITEM,
 					'data-code': i,
 					text: i + '-' + (i+9)
 				});
@@ -338,7 +338,7 @@
 				}
 
 			wrap.append($('<div />', {
-				class: this.ANOTHER_DECS,
+				'class': this.ANOTHER_DECS,
 				text: parseInt(date.getFullYear() / 100, 10) * 100 + 100 + '-' + (parseInt(date.getFullYear() / 100, 10) * 100 + 119)
 			}));
 
