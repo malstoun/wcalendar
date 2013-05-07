@@ -361,6 +361,7 @@
 		this.selectedMonth = this.dateCurrent.getMonth();
 		this.selectedYear = this.dateCurrent.getFullYear();
 		this.previousSelected = undefined;
+		this.dateFormat = 'dmY';
 	};
 
 	Calendar.prototype = {
@@ -421,10 +422,18 @@
 			}
 		},
 
-		getDate: function () {
+		getDateObject: function () {
 			var selectedDate;
 			selectedDate = new Date(this.selectedYear, this.selectedMonth, this.selectedDay);
 			return selectedDate;
+		},
+
+		getValue: function() {
+			var a = this.dateFormat.replace(/d/, this.selectedDay);
+			var b = a.replace(/m/, this.selectedMonth);
+			var c = b.replace(/Y/, this.selectedYear);
+			var d = c.replace(/y/, this.selectedYear.substr(2));
+			return d;
 		},
 
 		setDate: function (date) {
@@ -592,12 +601,17 @@
 			var date = this.getDate();
 			this.input.val(date.getDate() + '.' +
 				(date.getMonth() + 1) + '.' + date.getFullYear());
+
 			//this.object.setValue(this.getDate());
 		}
 	};
 
-	$.fn.wcalendarShow = function (options, input) {
+	$.fn.wcalendar = function (options, input) {
 		var self = this;
+
+		self.insertAfter($('<div />', {
+			'class': 'wcalendar'
+		}))
 
 		if (input)
 			cal = new Calendar({ calendar: self, input: input });
@@ -682,21 +696,17 @@
 })(jQuery);
 
 $(document).ready(function () {
-		$('.opener-calendar').on('click', function (event) {
-			if (!$(".calendar").is(":visible")) {
-				$(".calendar").wcalendarShow({
-					from: '1.03.2013',
-					to: '15.04.2013'//,
-					//selected: '10.10.2008'
-				}, $('.input-example'));
-			} else {
-				$('.calendar').wcalendarHide();
-			}
-			if (event.stopPropagation)
-				event.stopPropagation();
-			else
-				e.cancelBubble = true;
-		});
+		$(".opener-calendar").wcalendar({
+			from: '1.03.2013',
+			to: '15.04.2013'//,
+			//selected: '10.10.2008'
+		}, $('.input-example'));
+
+		// 	if (event.stopPropagation)
+		// 		event.stopPropagation();
+		// 	else
+		// 		e.cancelBubble = true;
+		// });
 
 		$('body').click(function () {
 			$('.calendar').wcalendarHide();
