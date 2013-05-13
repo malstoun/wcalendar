@@ -179,7 +179,7 @@
 				if (!this.calendar.isCorrect({ day: i }))
 					temp.addClass(this.WARNING_CLASS);
 
-				if ((i == this.calendar.getDate().getDate()) &&
+				if ((i == this.calendar.getDateObject().getDate()) &&
 					this.calendar.selectedMonth == date.getMonth())
 					temp.addClass(this.SELECTION_CLASS);
 
@@ -514,7 +514,7 @@
 			} else {
 				html = this.htmlGenerator.getDays();
 			}
-
+			
 			return html;
 		},
 
@@ -598,7 +598,7 @@
 
 
 		fillSelect: function () {
-			var date = this.getDate();
+			var date = this.getDateObject();
 			this.input.val(date.getDate() + '.' +
 				(date.getMonth() + 1) + '.' + date.getFullYear());
 
@@ -609,26 +609,33 @@
 	$.fn.wcalendar = function (options, input) {
 		var self = this;
 
-		self.insertAfter($('<div />', {
+		var elem = $('<div />', {
 			'class': 'wcalendar'
-		}))
+		});
+		elem.insertAfter($(this));
 
 		if (input)
-			cal = new Calendar({ calendar: self, input: input });
+			elem.cal = new Calendar({ calendar: elem, input: input });
 		else
-			cal = new Calendar({ calendar: self });
+			elem.cal = new Calendar({ calendar: elem });
 
-		if (firstStart || cal === undefined) {
-			initBinds(self);
-			firstStart = false;
-		}
+		initBinds(elem);
+		firstStart = false;
 
-		cal.init(options);
-		$(self).html(cal.getHtml().html())
+		elem.cal.init(options);
+
+		self.click(function() {
+			if (elem.is(':visible')) {
+				elem.hide();
+			} else {
+				elem.html(elem.cal.getHtml().html())
 				.fadeIn()
 				.css({
 					display: 'inline-block'
 				});
+			}
+			cancelBubbling(event);	
+		});
 	};
 
 	$.fn.wcalendarHide = function () {
@@ -637,7 +644,7 @@
 	};
 
 	function initBinds(calendar) {
-		var self = cal;
+		var self = calendar.cal;
 		$(calendar).on('mouseenter', '.item', function (event) {
 			$(this).addClass('hover');
 		}).on('mouseleave', '.item', function (event) {
@@ -696,19 +703,23 @@
 })(jQuery);
 
 $(document).ready(function () {
+
 		$(".opener-calendar").wcalendar({
 			from: '1.03.2013',
 			to: '15.04.2013'//,
 			//selected: '10.10.2008'
 		}, $('.input-example'));
 
-		// 	if (event.stopPropagation)
-		// 		event.stopPropagation();
-		// 	else
-		// 		e.cancelBubble = true;
-		// });
+		$(".opener-calendar-two").wcalendar({
+			from: '2.03.2013',
+			to: '15.04.2013'//,
+			//selected: '10.10.2008'
+		}, $('.input-example'));
+		
 
 		$('body').click(function () {
-			$('.calendar').wcalendarHide();
+			if ($('.wcalendar').is(':visible')){
+				$('.wcalendar').wcalendarHide();
+			}
 		});
 });

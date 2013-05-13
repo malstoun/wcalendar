@@ -1,4 +1,4 @@
-.calendar {
+.wcalendar {
 	position: absolute;
 	margin-left: 10px;
 	padding-left: 6px;
@@ -16,6 +16,17 @@
 }
 
 .opener-calendar {
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	line-height: 20px;
+	margin-top: 1px;
+	margin-left: 5px;
+	text-align: center;
+	background: #000;
+}
+
+.opener-calendar-two {
 	display: inline-block;
 	height: 20px;
 	width: 20px;
