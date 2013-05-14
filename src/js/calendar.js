@@ -373,6 +373,12 @@
 
 		init: function (params) {
 			if (typeof params == 'object') {
+				for (var i in params) {
+					if (params.hasOwnProperty(i)) {
+						if (i != 'form' && i != 'to' && i != 'selected')
+							this[i] = params[i];
+					}
+				}
 				if (params.from) {
 					if (params.from instanceof Date) {
 						this.dateFrom = params.from;
@@ -638,11 +644,6 @@
 		});
 	};
 
-	$.fn.wcalendarHide = function () {
-		this.hide()
-			.removeAttr('style');
-	};
-
 	function initBinds(calendar) {
 		var self = calendar.cal;
 		$(calendar).on('mouseenter', '.item', function (event) {
@@ -674,7 +675,8 @@
 				self.selectedDay = parseInt($(this).attr('data-code'), 10);
 				self.dateCurrent.setDate(parseInt($(this).attr('data-code'), 10));
 				self.fillSelect();
-				$(self.calendar).wcalendarHide();
+				$(self.calendar).hide()
+					.removeAttr('style');
 			} else {
 				self.moveDown();
 			}
@@ -691,6 +693,12 @@
 			self.moveUp();
 			cancelBubbling(event);
 		});
+
+		$('body').click(function () {
+			if ($('.wcalendar').is(':visible')){
+				$('.wcalendar').hide()
+					.removeAttr('style');
+			}
 	}
 
 	function cancelBubbling(event) {
@@ -715,11 +723,4 @@ $(document).ready(function () {
 			to: '15.04.2013'//,
 			//selected: '10.10.2008'
 		}, $('.input-example'));
-		
-
-		$('body').click(function () {
-			if ($('.wcalendar').is(':visible')){
-				$('.wcalendar').wcalendarHide();
-			}
-		});
 });
