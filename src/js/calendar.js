@@ -1,6 +1,5 @@
 (function ($) {
 
-	var cal;
 	var firstStart = true;
 
 	var months = {
@@ -699,6 +698,7 @@
 				$('.wcalendar').hide()
 					.removeAttr('style');
 			}
+		});
 	}
 
 	function cancelBubbling(event) {
