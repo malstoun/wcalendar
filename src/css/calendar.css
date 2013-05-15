@@ -71,6 +71,7 @@
 }
 
 .day-another {
+	cursor: default;
 	border: 1px solid #fff;
 	color: #ccc;
 	margin: 0;
@@ -139,6 +140,7 @@
 }
 
 .year-another {
+	cursor: default;
 	color: #ccc;
 	margin: 0;
 	width: 42px;

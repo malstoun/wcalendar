@@ -608,6 +608,16 @@
 				(date.getMonth() + 1) + '.' + date.getFullYear());
 
 			//this.object.setValue(this.getDate());
+		},
+
+		setCurrent: function (value) {
+			if (typeof value == 'string') {
+				this.dateCurrent.setDate(value.split('.')[0]);
+				this.dateCurrent.setMonth(value.split('.')[1]-1);
+				this.dateCurrent.setYear(value.split('.')[2]);
+			} else if (value instanceof Date) {
+				this.dateCurrent.setMilliseconds(value.valueOf());
+			}
 		}
 	};
 
@@ -633,11 +643,20 @@
 			if (elem.is(':visible')) {
 				elem.hide();
 			} else {
-				elem.html(elem.cal.getHtml().html())
-				.fadeIn()
-				.css({
-					display: 'inline-block'
-				});
+				if (input && ($(input).val() != '')){
+					elem.cal.setCurrent($(input).val());
+					elem.html(elem.cal.setDate($(input).val()))
+						.fadeIn()
+						.css({
+							display: 'inline-block'
+						});
+				}
+				else
+					elem.html(elem.cal.getHtml().html())
+						.fadeIn()
+						.css({
+							display: 'inline-block'
+						});
 			}
 			cancelBubbling(event);	
 		});
@@ -722,5 +741,5 @@ $(document).ready(function () {
 			from: '2.03.2013',
 			to: '15.04.2013'//,
 			//selected: '10.10.2008'
-		}, $('.input-example'));
+		}, $('.input-example-2'));
 });
