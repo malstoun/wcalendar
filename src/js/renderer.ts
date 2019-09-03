@@ -1,4 +1,4 @@
-import { months } from './config';
+import { months, daysName, daysInMonth } from './config';
 
 const styleConsts = {
   // Section with classes
@@ -22,10 +22,15 @@ const styleConsts = {
   SELECTION_CLASS: 'selected', // Class using for highlight selected date
 };
 
-function div(className: string): HTMLDivElement {
+function div(className?: string): HTMLDivElement {
   const el = document.createElement('div');
   el.classList.add(className);
   return el;
+}
+
+interface headParams {
+  type: string;
+  date: any;
 }
 
 class Renderer {
@@ -35,7 +40,7 @@ class Renderer {
     this.calendar = calendar;
   }
 
-  getHead(params) {
+  getHead(params: headParams): HTMLElement {
     const selectedDate = div('wrap-selected-date');
 
     const leftArrow = div(styleConsts.ARROW_LEFT_CLASS);
@@ -63,7 +68,7 @@ class Renderer {
 
       case 'decs':
         const decs = div(styleConsts.SELECTED_DATE_CLASS_DECS);
-        decs.textContent = parseInt(params.date.getFullYear() / 100, 10) * 100 + '-' + (parseInt(params.date.getFullYear() / 100, 10) * 100 + 99);
+        decs.textContent = `${Math.floor(params.date.getFullYear() / 100) * 100}-${Math.floor(params.date.getFullYear() / 100) * 100 + 99}`;
         selectedDate.appendChild(decs);
         break;
     }
@@ -73,5 +78,103 @@ class Renderer {
     selectedDate.appendChild(rightArrow);
 
     return selectedDate;
+  }
+
+  getDays(): HTMLElement {
+    const date = this.calendar.dateCurrent;
+    const html = div();
+
+    const selectedDate = this.getHead( { type: 'day', date: date } );
+
+    html.appendChild(selectedDate);
+
+    const dayName = div('wrap-weekdays');
+
+    for (var i = 0; i < 7; i++) {
+      const d = div(styleConsts.DAYS_OF_WEEK);
+      d.textContent = daysName[i][1];
+      dayName.appendChild(d);
+    }
+
+    html.appendChild(dayName);
+
+    const hr = document.createElement('hr');
+    hr.classList.add('line');
+    html.appendChild(hr);
+
+    // Выбираем текущий месяц, берём первое число и узнаём день недели
+    const firstDay = new Date(date.getFullYear(),
+        date.getMonth(),
+        1);
+    let dayCode = firstDay.getDay();
+
+    /* У нас воскресенье 7 день недели */
+    if (dayCode === 0) {
+      dayCode = 7;
+    }
+
+    if (dayCode == 1) {
+      dayCode = 8;
+    }
+
+    const wrap = div('day-wrap');
+
+    // объявляем тут, потому что нам ниже понадобиться индекст, на котором мы закончили цикл
+    let ii = 0;
+
+    for (let ii = 1; ii < dayCode; ii++) {
+      const d = div(styleConsts.ANOTHER_DAY);
+      d.textContent = (new Date(firstDay.getMilliseconds() - 86000000 * dayCode + (ii * 86000000))).getDate().toString();
+      wrap.appendChild(d);
+    }
+
+    let temp;
+    let numberDays;
+
+    if ((date.getFullYear() % 4 == 0) && (date.getFullYear() % 100 != 0) || (date.getFullYear() % 400 == 0)) {
+      numberDays = daysInMonth[date.getMonth()] + 1;
+    } else {
+      numberDays = daysInMonth[date.getMonth()];
+    }
+
+    for (i = 1; i <= numberDays; i++) {
+      const temp = div(styleConsts.DAY_ITEM);
+      temp.textContent = i.toString();
+      temp.dataset.code = i.toString();
+
+      if (!this.calendar.isCorrect({ day: i })) {
+        temp.classList.add(styleConsts.WARNING_CLASS);
+      }
+
+      if ((i == this.calendar.getDate().getDate()) &&
+          this.calendar.selectedMonth == date.getMonth()) {
+        temp.classList.add(styleConsts.SELECTION_CLASS);
+      }
+
+      wrap.appendChild(temp);
+
+      if ((i + ii - 1) % 7 == 0) {
+        const br = document.createElement('br');
+        wrap.appendChild(br);
+      }
+    }
+
+    let anotherMonth = 1;
+
+    i -= 2; // Корректировка
+
+    // Добиваем до 42 дней, 6 строк
+    while (i + ii != 42) {
+      const d = div(styleConsts.ANOTHER_DAY);
+      // TODO: проблема с датами может быть тут
+      // возможно надо сначала приводить к строке, а потом увеличивать на 1
+      d.textContent = (anotherMonth++).toString();
+      wrap.appendChild(d);
+      i++;
+    }
+
+    html.appendChild(wrap);
+
+    return html;
   }
 }
