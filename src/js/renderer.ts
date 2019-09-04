@@ -257,4 +257,49 @@ class Renderer {
 
     return html;
   }
+
+  getDecs(): HTMLElement {
+    const date = this.calendar.dateCurrent;
+    const html = div();
+
+    const selectedDate = this.getHead( { type: 'decs', date: date } );
+
+    html.appendChild(selectedDate);
+
+    const wrap = div('decs-wrap');
+
+    let anotherDecs = div(styleConsts.ANOTHER_YEAR);
+    anotherDecs.textContent = `${Math.floor(date.getFullYear() / 100) * 100 - 10}-${Math.floor(date.getFullYear() / 100) * 100 - 1}`;
+
+    let count = 1;
+
+    for (let i = Math.floor(date.getFullYear() / 100) * 100; i < Math.floor(date.getFullYear() / 100) * 100 + 100; i += 10) {
+      count++;
+      const temp = div(styleConsts.DECS_ITEM);
+      temp.dataset.code = i.toString();
+      temp.textContent = `${i}-${i+9}`;
+
+      if (!this.calendar.isCorrect({ decs: i })) {
+        temp.classList.add(styleConsts.WARNING_CLASS);
+      }
+
+      if ((i == date.getFullYear()) && date.getFullYear() == this.calendar.selectedYear) {
+        temp.classList.add(styleConsts.SELECTION_CLASS);
+      }
+
+      wrap.appendChild(temp);
+
+      if (count % 4 == 0) {
+        wrap.appendChild(document.createElement('br'));
+      }
+    }
+
+    anotherDecs = div(styleConsts.ANOTHER_DECS);
+    anotherDecs.textContent = `${Math.floor(date.getFullYear() / 100) * 100 + 100}-${Math.floor(date.getFullYear() / 100) * 100 + 119}`;
+    wrap.appendChild(anotherDecs);
+
+    html.appendChild(wrap);
+
+    return html;
+  }
 }
