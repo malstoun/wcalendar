@@ -1,4 +1,5 @@
 import { months, daysName, daysInMonth } from './config';
+import Calendar from "./calendar";
 
 const styleConsts = {
   // Section with classes
@@ -34,7 +35,7 @@ interface headParams {
 }
 
 class Renderer {
-  private calendar;
+  private calendar: Calendar;
 
   constructor(calendar) {
     this.calendar = calendar;
