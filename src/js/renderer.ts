@@ -177,4 +177,39 @@ class Renderer {
 
     return html;
   }
+
+  getMonths(): HTMLElement {
+    const date = this.calendar.dateCurrent;
+    const html = div();
+
+    const selectedDate = this.getHead( { type: 'month', date: date } );
+
+    html.appendChild(selectedDate);
+
+    const wrap = div('month-wrap');
+
+    for (let i = 0; i < 12; i++) {
+      const temp = div(styleConsts.MONTH_ITEM);
+      temp.dataset.code = i.toString();
+      temp.textContent = months[i][1];
+
+      if (!this.calendar.isCorrect({ month: i })) {
+        temp.classList.add(styleConsts.WARNING_CLASS);
+      }
+
+      if ((i == date.getMonth()) && date.getMonth() == this.calendar.selectedMonth) {
+        temp.classList.add(styleConsts.SELECTION_CLASS);
+      }
+
+      wrap.appendChild(temp);
+
+      if ((i + 1) % 4 == 0) {
+        wrap.appendChild(document.createElement('br'));
+      }
+    }
+
+    html.appendChild(wrap);
+
+    return html;
+  }
 }
