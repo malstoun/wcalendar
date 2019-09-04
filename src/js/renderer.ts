@@ -91,7 +91,7 @@ class Renderer {
 
     const dayName = div('wrap-weekdays');
 
-    for (var i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
       const d = div(styleConsts.DAYS_OF_WEEK);
       d.textContent = daysName[i][1];
       dayName.appendChild(d);
@@ -114,7 +114,7 @@ class Renderer {
       dayCode = 7;
     }
 
-    if (dayCode == 1) {
+    if (dayCode === 1) {
       dayCode = 8;
     }
 
@@ -131,12 +131,13 @@ class Renderer {
 
     let numberDays = 0;
 
-    if ((date.getFullYear() % 4 == 0) && (date.getFullYear() % 100 != 0) || (date.getFullYear() % 400 == 0)) {
+    if ((date.getFullYear() % 4 === 0) && (date.getFullYear() % 100 !== 0) || (date.getFullYear() % 400 === 0)) {
       numberDays = daysInMonth[date.getMonth()] + 1;
     } else {
       numberDays = daysInMonth[date.getMonth()];
     }
 
+    let i = 0;
     for (i = 1; i <= numberDays; i++) {
       const temp = div(styleConsts.DAY_ITEM);
       temp.textContent = i.toString();
@@ -146,14 +147,13 @@ class Renderer {
         temp.classList.add(styleConsts.WARNING_CLASS);
       }
 
-      if ((i == this.calendar.getDate().getDate()) &&
-          this.calendar.selectedMonth == date.getMonth()) {
+      if (i === this.calendar.getDate().getDate() && this.calendar.selectedMonth === date.getMonth()) {
         temp.classList.add(styleConsts.SELECTION_CLASS);
       }
 
       wrap.appendChild(temp);
 
-      if ((i + ii - 1) % 7 == 0) {
+      if ((i + ii - 1) % 7 === 0) {
         const br = document.createElement('br');
         wrap.appendChild(br);
       }
@@ -164,7 +164,7 @@ class Renderer {
     i -= 2; // Корректировка
 
     // Добиваем до 42 дней, 6 строк
-    while (i + ii != 42) {
+    while (i + ii !== 42) {
       const d = div(styleConsts.ANOTHER_DAY);
       // TODO: проблема с датами может быть тут
       // возможно надо сначала приводить к строке, а потом увеличивать на 1
@@ -197,13 +197,13 @@ class Renderer {
         temp.classList.add(styleConsts.WARNING_CLASS);
       }
 
-      if ((i == date.getMonth()) && date.getMonth() == this.calendar.selectedMonth) {
+      if ((i === date.getMonth()) && date.getMonth() === this.calendar.selectedMonth) {
         temp.classList.add(styleConsts.SELECTION_CLASS);
       }
 
       wrap.appendChild(temp);
 
-      if ((i + 1) % 4 == 0) {
+      if ((i + 1) % 4 === 0) {
         wrap.appendChild(document.createElement('br'));
       }
     }
