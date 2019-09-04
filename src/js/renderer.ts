@@ -120,7 +120,7 @@ class Renderer {
 
     const wrap = div('day-wrap');
 
-    // объявляем тут, потому что нам ниже понадобиться индекст, на котором мы закончили цикл
+    // объявляем тут, потому что нам ниже понадобиться индекс, на котором мы закончили цикл
     let ii = 0;
 
     for (let ii = 1; ii < dayCode; ii++) {
@@ -129,8 +129,7 @@ class Renderer {
       wrap.appendChild(d);
     }
 
-    let temp;
-    let numberDays;
+    let numberDays = 0;
 
     if ((date.getFullYear() % 4 == 0) && (date.getFullYear() % 100 != 0) || (date.getFullYear() % 400 == 0)) {
       numberDays = daysInMonth[date.getMonth()] + 1;
