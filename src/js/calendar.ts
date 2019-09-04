@@ -14,6 +14,10 @@ export default class Calendar {
         return 0;
     }
 
+    get selectedYear(): number {
+        return 0;
+    }
+
     isCorrect(params: correctParams): boolean {
         return true;
     }

@@ -212,4 +212,49 @@ class Renderer {
 
     return html;
   }
+
+  getYears(): HTMLElement {
+    const date = this.calendar.dateCurrent;
+    const html = div();
+
+    const selectedDate = this.getHead( { type: 'year', date: date } );
+
+    html.appendChild(selectedDate);
+
+    const wrap = div('year-wrap');
+
+    let anotherYear = div(styleConsts.ANOTHER_YEAR);
+    anotherYear.textContent = (Math.floor(date.getFullYear() / 10) * 10 - 1).toString();
+    wrap.appendChild(anotherYear);
+
+    let count = 1; // Счётчик годов в строке
+
+    for (let i = Math.floor(date.getFullYear() / 10) * 10; i < Math.floor(date.getFullYear() / 10) * 10 + 10; i++) {
+      count++;
+      const temp = div(styleConsts.YEAR_ITEM);
+      temp.dataset.code = i.toString();
+      temp.textContent = i.toString();
+
+      if (!this.calendar.isCorrect({ year: i })) {
+        temp.classList.add(styleConsts.WARNING_CLASS);
+      }
+
+      if ((i == date.getFullYear()) && date.getFullYear() == this.calendar.selectedYear) {
+        temp.classList.add(styleConsts.SELECTION_CLASS);
+      }
+
+      wrap.appendChild(temp);
+
+      if (count % 4 == 0) {
+        wrap.appendChild(document.createElement('br'));
+      }
+    }
+
+    anotherYear = div(styleConsts.ANOTHER_YEAR);
+    anotherYear.textContent = (Math.floor(date.getFullYear() / 10) * 10 + 10).toString();
+
+    html.appendChild(wrap);
+
+    return html;
+  }
 }
