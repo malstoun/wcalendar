@@ -1,5 +1,5 @@
 import { months, daysName, daysInMonth } from './config';
-import Calendar from "./calendar";
+import Calendar from './calendar';
 
 const styleConsts = {
   // Section with classes
@@ -25,7 +25,9 @@ const styleConsts = {
 
 function div(className?: string): HTMLDivElement {
   const el = document.createElement('div');
-  el.classList.add(className);
+  if (className) {
+    el.classList.add(...className.split(' '));
+  }
   return el;
 }
 
@@ -83,7 +85,7 @@ class Renderer {
 
   getDays(): HTMLElement {
     const date = this.calendar.dateCurrent;
-    const html = div();
+    const html = div('calendar');
 
     const selectedDate = this.getHead( { type: 'day', date: date } );
 
@@ -180,7 +182,7 @@ class Renderer {
 
   getMonths(): HTMLElement {
     const date = this.calendar.dateCurrent;
-    const html = div();
+    const html = div('calendar');
 
     const selectedDate = this.getHead( { type: 'month', date: date } );
 
@@ -215,7 +217,7 @@ class Renderer {
 
   getYears(): HTMLElement {
     const date = this.calendar.dateCurrent;
-    const html = div();
+    const html = div('calendar');
 
     const selectedDate = this.getHead( { type: 'year', date: date } );
 
@@ -260,7 +262,7 @@ class Renderer {
 
   getDecs(): HTMLElement {
     const date = this.calendar.dateCurrent;
-    const html = div();
+    const html = div('calendar');
 
     const selectedDate = this.getHead( { type: 'decs', date: date } );
 
@@ -303,3 +305,5 @@ class Renderer {
     return html;
   }
 }
+
+export default Renderer;

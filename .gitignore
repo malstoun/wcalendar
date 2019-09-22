@@ -1,2 +1,5 @@
 calendar.png
 .idea
+node_modules/
+.cache/
+dist/

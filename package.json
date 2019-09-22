@@ -1,0 +1,28 @@
+{
+  "name": "wcalendar",
+  "version": "0.0.1",
+  "description": "Web components calendar",
+  "main": "src/calendar.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.6.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malstoun/wCalendar.git"
+  },
+  "keywords": [
+    "webcomponents",
+    "calendar",
+    "typescript"
+  ],
+  "author": "Andrey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/malstoun/wCalendar/issues"
+  },
+  "homepage": "https://github.com/malstoun/wCalendar#readme"
+}

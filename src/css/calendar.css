@@ -8,8 +8,6 @@
 	height: 205px;
 	border: 1px solid #ccc;
 	border-radius: 7px;
-	-moz-box-shadow: 0 10px 15px #ccc;
-	-webkit-box-shadow: 0 10px 15px #ccc;
 	box-shadow: 0 10px 15px #ccc;
 	z-index: 1000;
 	background: #fff;
@@ -31,10 +29,10 @@
 }
 
 .selected-date {
+	font-family: Helvetica, sans-serif;
 	display: inline-block;
 	width: 150px;
 	color: #2b66dd;
-	font-family: Helvetica;
 	font-size: 14px;
 	cursor: pointer;
 	margin-top: 2px;
@@ -47,19 +45,19 @@
 }
 
 .weekday {
+	font-family: Helvetica, sans-serif;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 0 2px;
 	width: 23px;
 	height: 23px;
 	display: inline-block;
 	text-align: center;
-	font-family: Helvetica;
 	font-size: 13px;
 	vertical-align: bottom;
-	margin-left: 2px;
 }
 
 .day-another {
+	font-family: Helvetica, sans-serif;
 	border: 1px solid #fff;
 	color: #ccc;
 	margin: 0;
@@ -68,12 +66,12 @@
 	line-height: 23px;
 	display: inline-block;
 	text-align: center;
-	font-family: Helvetica;
 	font-size: 13px;
 	vertical-align: middle;
 }
 
 .day {
+	font-family: Helvetica, sans-serif;
 	border: 1px solid #fff;
 	margin: 0;
 	width: 23px;
@@ -81,7 +79,6 @@
 	line-height: 23px;
 	display: inline-block;
 	text-align: center;
-	font-family: Helvetica;
 	font-size: 13px;
 	cursor: pointer;
 	vertical-align: middle;
@@ -92,6 +89,7 @@
 }
 
 .month {
+	font-family: Helvetica, sans-serif;
 	border: 1px solid #fff;
 	margin: 0;
 	width: 42px;
@@ -99,7 +97,6 @@
 	line-height: 40px;
 	display: inline-block;
 	text-align: center;
-	font-family: Helvetica;
 	font-size: 13px;
 	cursor: pointer;
 	vertical-align: middle;
@@ -110,6 +107,7 @@
 }
 
 .year {
+	font-family: Helvetica, sans-serif;
 	border: 1px solid #fff;
 	margin: 0;
 	width: 42px;
@@ -117,7 +115,6 @@
 	line-height: 40px;
 	display: inline-block;
 	text-align: center;
-	font-family: Helvetica;
 	font-size: 13px;
 	cursor: pointer;
 	vertical-align: middle;
@@ -128,6 +125,7 @@
 }
 
 .year-another {
+	font-family: Helvetica, sans-serif;
 	color: #ccc;
 	margin: 0;
 	width: 42px;
@@ -135,12 +133,12 @@
 	line-height: 40px;
 	display: inline-block;
 	text-align: center;
-	font-family: Helvetica;
 	font-size: 13px;
 	vertical-align: middle;
 }
 
 .decs {
+	font-family: Helvetica, sans-serif;
 	border: 1px solid #fff;
 	margin: 0;
 	width: 42px;
@@ -148,7 +146,6 @@
 	line-height: 20px;
 	display: inline-block;
 	text-align: left;
-	font-family: Helvetica;
 	font-size: 13px;
 	cursor: pointer;
 	vertical-align: middle;
@@ -160,6 +157,7 @@
 }
 
 .decs-another {
+	font-family: Helvetica, sans-serif;
 	border: 1px solid #fff;
 	color: #ccc;
 	margin: 0;
@@ -168,7 +166,6 @@
 	line-height: 20px;
 	display: inline-block;
 	text-align: left;
-	font-family: Helvetica;
 	font-size: 13px;
 	vertical-align: middle;
 }
@@ -176,20 +173,12 @@
 .hover {
 	border: 1px solid #b9d7fc;
 	border-radius: 5px;
-	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -webkit-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -o-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -ms-linear-gradient(top, #fdfeff, #edf5ff);
     background: linear-gradient(top, #fdfeff, #edf5ff);
 }
 
 .selected {
 	border: 1px dotted #84acdd;
 	border-radius: 5px;
-	background: -moz-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -webkit-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -o-linear-gradient(top, #ebf4ff, #d1e6ff);
-    background: -ms-linear-gradient(top, #ebf4ff, #d1e6ff);
     background: linear-gradient(top, #ebf4ff, #d1e6ff);
 }
 
@@ -206,7 +195,7 @@
 .move-left {
 	display: inline-block;
 	position: absolute;
-	left: 0px;
+	left: 0;
 	color: #2b66dd;
 	cursor: pointer;
 	height: 25px;
@@ -216,17 +205,13 @@
 .move-left:hover {
 	border: 1px solid #b9d7fc;
 	border-top-left-radius: 5px;
-	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -webkit-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -o-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -ms-linear-gradient(top, #fdfeff, #edf5ff);
     background: linear-gradient(top, #fdfeff, #edf5ff);
 }
 
 .move-right {
 	display: inline-block;
 	position: absolute;
-	right: 0px;
+	right: 0;
 	color: #2b66dd;
 	cursor: pointer;
 	height: 25px;
@@ -236,10 +221,5 @@
 .move-right:hover {
 	border: 1px solid #b9d7fc;
 	border-top-right-radius: 5px;
-	background: -moz-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -webkit-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -o-linear-gradient(top, #fdfeff, #edf5ff);
-    background: -ms-linear-gradient(top, #fdfeff, #edf5ff);
     background: linear-gradient(top, #fdfeff, #edf5ff);
-}
 }
